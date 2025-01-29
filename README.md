@@ -1,10 +1,7 @@
-Here's the content in markdown format for your README.md:
-
-```markdown
 # 🚀 My React Portfolio  
 
 ![Portfolio Screenshot](./src/assets/project1.png)  
-![Live Demo](https://cyberboyayush.in)
+[Live Demo](https://cyberboyayush.in)
 
 ## 📌 Overview  
 This is my personal **React Portfolio** showcasing my skills, projects, and experience. It features smooth scrolling, a gradient cursor animation, a responsive navbar, and a beautifully designed UI using **Tailwind CSS**.
@@ -32,7 +29,7 @@ This is my personal **React Portfolio** showcasing my skills, projects, and expe
 ---
 
 ## 📂 Folder Structure  
-
+```
 📦 react-portfolio
 ┣ 📂 public
 ┃ ┗ 📜 favicon.ico
@@ -53,6 +50,7 @@ This is my personal **React Portfolio** showcasing my skills, projects, and expe
 ┣ 📜 package.json
 ┣ 📜 vite.config.js
 ┗ 📜 tailwind.config.js
+```
 
 ---
 
@@ -121,4 +119,3 @@ netlify deploy --prod
 - **Email:** [cseayushsharma@gmail.com](cseayushsharma@gmail.com)
 
 🚀 Feel free to contribute or suggest improvements!
-```
