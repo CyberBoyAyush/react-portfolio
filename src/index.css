@@ -3,11 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Prevent horizontal scrolling */
 html, body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden; /* Prevent horizontal scrolling */
-  width: 100%; /* Ensures proper scaling */
+  overflow-x: hidden;
+  margin: 0; /* Ensure no default margin is pushing content */
 }
 
 body {
