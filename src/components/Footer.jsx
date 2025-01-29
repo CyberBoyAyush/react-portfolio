@@ -17,7 +17,9 @@ const Footer = () => {
 
         </div>
 
-        <p className='text-gray-400'>@2025 Ayush Sharma</p>
+        <p className='text-gray-400 flex items-center gap-2'>
+          <box-icon name='code-block' color='#ffffff' ></box-icon>
+          Ayush Sharma</p>
         
     </div>
   )
