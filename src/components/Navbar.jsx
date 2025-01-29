@@ -1,75 +1,97 @@
-import React, { useState } from 'react'
-import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
-import { Link } from 'react-scroll'
-import { motion } from 'framer-motion'
-/// import code icon from react-icons
-import { FaCode } from 'react-icons/fa'
+import React, { useState } from 'react';
+import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
+import { Link as ScrollLink } from 'react-scroll';
+import { motion } from 'framer-motion';
 import 'boxicons';
 
 const Navbar = () => {
-    const [nav, setNav] = useState(false)
+    const [nav, setNav] = useState(false);
 
-    const toggleNav = () => {
-        setNav(!nav)
-    }
+    const toggleNav = () => setNav(!nav);
+    const closeNav = () => setNav(false);
 
-    const closeNav = () => {
-        setNav(false)
-    }
-
-    const menuVariants = {
-        open: {
-            x: 0,
-            transition: {
-            stiffness: 20,
-            damping: 15
+    // Manual scroll fix
+    const handleScroll = (section) => {
+        closeNav();
+        setTimeout(() => {
+            const target = document.getElementById(section);
+            if (target) {
+                target.scrollIntoView({ behavior: "smooth", block: "start" });
             }
-        },
-        closed: {
-            x: '-100%',
-            transition: {
-            stiffness: 20,
-            damping: 15
-            }
-        }
-    }
+        }, 300);
+    };
 
-return (
-    <div className='fixed top-0 left-0 w-full bg-opacity-70 backdrop-blur-md z-50'>
+    return (
+        <div className='fixed top-0 left-0 w-full bg-opacity-70 backdrop-blur-md z-50'>
             <div className='max-w-[1300px] mx-auto flex justify-between text-gray-200 text-xl items-center px-12 h-20'>
 
-                    <a href="#" className="hover:text-purple-500 transition duration-300 flex items-center">
-                            <box-icon name='code-alt' color='#ffffff' ></box-icon>
-                            <span className="ml-2">CyberBoyAyush</span>
-                    </a>
+                {/* Logo */}
+                <a href="#" className="hover:text-purple-500 transition duration-300 flex items-center">
+                    <box-icon name='code-alt' color='#ffffff'></box-icon>
+                    <span className="ml-2">CyberBoyAyush</span>
+                </a>
 
-                    <ul className='hidden md:flex gap-12 z-10 cursor-pointer'>
-                            <li><Link to="skills" smooth={true} offset={50} duration={500} className="hover:text-purple-500 transition duration-300">About</Link></li>
-                            <li><Link to="portfolio" smooth={true} offset={50} duration={500} className="hover:text-purple-500 transition duration-300">Portfolio</Link></li>
-                            <li><Link to="contact" smooth={true} offset={50} duration={500} className="hover:text-purple-500 transition duration-300">Contact</Link></li>
-                            <li><a href="https://me.cyberboyayush.in/" target="_blank" rel="noopener noreferrer" className="border border-purple-500 rounded-xl p-4 hover:bg-purple-500 hover:text-white transition duration-300">Visit Profiles</a></li>
-                    </ul>
+                {/* Desktop Menu */}
+                <ul className='hidden md:flex gap-12 cursor-pointer'>
+                    {["about", "portfolio", "contact"].map((section) => (
+                        <li key={section}>
+                            <ScrollLink
+                                to={section}
+                                smooth={true}
+                                offset={-70}
+                                duration={500}
+                                onClick={() => handleScroll(section)}
+                                className="hover:text-purple-500 transition duration-300"
+                            >
+                                {section.charAt(0).toUpperCase() + section.slice(1)}
+                            </ScrollLink>
+                        </li>
+                    ))}
+                    <li>
+                        <a href="https://me.cyberboyayush.in/" target="_blank" rel="noopener noreferrer" className="border border-purple-500 rounded-xl p-4 hover:bg-purple-500 hover:text-white transition duration-300">
+                            Visit Profiles
+                        </a>
+                    </li>
+                </ul>
 
-                    <div onClick={toggleNav} className='md:hidden z-50 text-gray-200'>
-                            {nav ? <AiOutlineClose size={30} /> : <AiOutlineMenu size={30} />}
-                    </div>
+                {/* Mobile Menu Button */}
+                <div onClick={toggleNav} className='md:hidden z-50 text-gray-200'>
+                    {nav ? <AiOutlineClose size={30} /> : <AiOutlineMenu size={30} />}
+                </div>
 
-                    <motion.div
+                {/* Mobile Menu */}
+                <motion.div
                     initial={false}
-                    animate={nav ? 'open' : 'closed'}
-                    variants={menuVariants}
-                    className='fixed left-0 top-0 w-full min-h-screen bg-gray-900 z-40'
-                    >
-                            <ul className='font-semibold text-4xl space-y-8 mt-24 text-center'>
-                                    <li><Link to="skills" onClick={closeNav} smooth={true} offset={50} duration={500} className="hover:text-purple-500 transition duration-300">About</Link></li>
-                                    <li><Link to="portfolio" onClick={closeNav} smooth={true} offset={50} duration={500} className="hover:text-purple-500 transition duration-300">Portfolio</Link></li>
-                                    <li><Link to="contact" onClick={closeNav} smooth={true} offset={50} duration={500} className="hover:text-purple-500 transition duration-300">Contact</Link></li>
-                                    <li><a href="https://me.cyberboyayush.in/" target="_blank" rel="noopener noreferrer" onClick={closeNav} className="border border-purple-500 p-2 rounded-xl hover:bg-purple-500 hover:text-white transition duration-300">Visit Profiles</a></li>
-                            </ul>
-                    </motion.div>
+                    animate={nav ? { x: 0 } : { x: '-100%' }}
+                    transition={{ type: "spring", stiffness: 100, damping: 15 }}
+                    className={`fixed left-0 top-0 w-full min-h-screen bg-gray-900 z-40 transition-transform ${nav ? "translate-x-0" : "-translate-x-full"}`}
+                    style={{ pointerEvents: nav ? 'auto' : 'none' }}
+                >
+                    <ul className='font-semibold text-4xl space-y-8 mt-24 text-center'>
+                        {["about", "portfolio", "contact"].map((section) => (
+                            <li key={section}>
+                                <ScrollLink
+                                    to={section}
+                                    smooth={true}
+                                    offset={-70}
+                                    duration={500}
+                                    onClick={() => handleScroll(section)}
+                                    className="hover:text-purple-500 transition duration-300"
+                                >
+                                    {section.charAt(0).toUpperCase() + section.slice(1)}
+                                </ScrollLink>
+                            </li>
+                        ))}
+                        <li>
+                            <a href="https://me.cyberboyayush.in/" target="_blank" rel="noopener noreferrer" onClick={closeNav} className="border border-purple-500 p-2 rounded-xl hover:bg-purple-500 hover:text-white transition duration-300">
+                                Visit Profiles
+                            </a>
+                        </li>
+                    </ul>
+                </motion.div>
             </div>
-    </div>
-)
-}
+        </div>
+    );
+};
 
-export default Navbar
+export default Navbar;

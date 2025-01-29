@@ -26,11 +26,21 @@ export default function App() {
       )}
     >
       <Navbar />
-      <Hero />
-      <Skills />
-      <Portfolio />
-      {/* <Experience /> */}
-      <Contact />
+      <section id="about">
+        <Hero />
+      </section>
+      <section id="skills">
+        <Skills />
+      </section>
+      <section id="portfolio">
+        <Portfolio />
+      </section>
+      {/* <section id="experience">
+        <Experience />
+      </section> */}
+      <section id="contact">
+        <Contact />
+      </section>
       <Footer />
     </Scrollbars>
   );

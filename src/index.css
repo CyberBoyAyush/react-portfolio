@@ -39,3 +39,7 @@ span {
 .bg-primary-color {
     @apply bg-red-500
 }
+
+html {
+  scroll-behavior: smooth;
+}

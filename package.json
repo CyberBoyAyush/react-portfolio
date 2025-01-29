@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "boxicons": "^2.1.4",
-    "framer-motion": "^11.2.10",
+    "framer-motion": "^11.18.2",
     "react": "^18.2.0",
     "react-custom-cursor": "^0.1.1",
     "react-custom-scrollbars-2": "^4.5.0",
