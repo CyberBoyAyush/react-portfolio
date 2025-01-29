@@ -18,7 +18,7 @@ const Footer = () => {
 
       {/* Right Section */}
       <p className="text-gray-400 flex items-center gap-2 text-xs md:text-lg mt-4 md:mt-0">
-        <span className="hidden md:inline">💻</span> Ayush Sharma
+        <span className=""><box-icon name='code-block' color='#ffffff' ></box-icon></span> CyberBoyAyush
       </p>
     </div>
   );
