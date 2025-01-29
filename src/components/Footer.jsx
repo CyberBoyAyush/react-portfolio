@@ -1,6 +1,6 @@
 import React from 'react'
 import { FaGithubSquare, FaInstagram, FaLinkedin, FaMailBulk, FaMailchimp} from 'react-icons/fa'
-import { SiGmail } from 'react-icons/si'
+import { SiGmail, SiX } from 'react-icons/si'
 
 const Footer = () => {
   return (
@@ -11,6 +11,7 @@ const Footer = () => {
                 <a href="https://github.com/CyberBoyAyush"><FaGithubSquare /></a>
                 <a href="https://linkedin.com/in/cyberboyayush"><FaLinkedin /></a>
                 <a href="mailto:cseayushayush@gmail.com"><SiGmail /></a>
+                <a href="https://x.com/cyberboyayush"><SiX /></a>
 
             </div>
 

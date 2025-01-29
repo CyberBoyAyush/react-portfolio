@@ -58,7 +58,7 @@ const projects = [
 const Portfolio = () => {
   return (
     <div className='max-w-[1000px] mx-auto p-6 md:my-20' id="portfolio">
-        <h2 className='text-3xl font-bold text-gray-200 mb-8'>Portfolio</h2>
+        <h2 className='text-4xl font-bold text-gray-200 mb-8 justify-center text-center'>Portfolio</h2>
         {projects.map((project, index) => (
             <Reveal>
             <div key={index} 
