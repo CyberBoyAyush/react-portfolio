@@ -1,16 +1,17 @@
-import { Scrollbars } from "react-custom-scrollbars-2";
-import Contact from "./components/Contact";
-import Experience from "./components/Experience";
-import Footer from "./components/Footer";
+import React, { useState, useEffect } from 'react';
 import Hero from "./components/Hero";
-import Navbar from "./components/Navbar";
-import Portfolio from "./components/Portfolio";
 import Skills from "./components/Skills";
+import Portfolio from "./components/Portfolio";
+import Contact from "./components/Contact";
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
 import Cursor from "./components/Cursor";
-import CodingStats from './components/CodingStats'
+import CodingStats from './components/CodingStats';
 import { motion, useScroll, useSpring } from "framer-motion";
+import Loading from './components/Loading';
 
 export default function App() {
+  const [loading, setLoading] = useState(true);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -18,35 +19,40 @@ export default function App() {
     restDelta: 0.001
   });
 
+  useEffect(() => {
+    // Pre-load any critical resources here
+    const preloadResources = async () => {
+      try {
+        // Simulate resource loading
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        setLoading(false);
+      } catch (error) {
+        console.error('Loading error:', error);
+        setLoading(false); // Ensure content shows even if there's an error
+      }
+    };
+
+    preloadResources();
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
-    <>
+    <div className="min-h-screen bg-[#0f0f0f]">
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 bg-purple-600 origin-left z-50"
         style={{ scaleX }}
       />
-      <div className="site-background relative min-h-screen w-full overflow-hidden">
-        <div className="gradient-overlay" />
-        <Cursor />
-        <Navbar />
-        <div className="content-wrapper relative z-10">
-          <section id="about">
-            <Hero />
-          </section>
-          <section id="skills">
-            <Skills />
-          </section>
-          <section id="portfolio">
-            <Portfolio />
-          </section>
-          <section id="coding-stats">
-            <CodingStats />
-          </section>
-          <section id="contact">
-            <Contact />
-          </section>
-        </div>
-        <Footer />
-      </div>
-    </>
+      <Cursor />
+      <Navbar />
+      <Hero />
+      <Skills />
+      <Portfolio />
+      <CodingStats />
+      <Contact />
+      <Footer />
+    </div>
   );
 }
