@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AiOutlineGithub, AiOutlineLink, AiOutlineEye } from 'react-icons/ai';
 import { Particles } from "@tsparticles/react";
@@ -86,70 +86,94 @@ const ProjectButton = ({ href, icon, label }) => (
   </motion.a>
 );
 
-const ProjectCard = ({ project, index, isHovered, onHover }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5, delay: index * 0.1 }}
-    onHoverStart={() => onHover(index)} 
-    onHoverEnd={() => onHover(null)}
-    className="group relative rounded-2xl overflow-hidden
-               bg-gradient-to-br from-purple-900/40 to-purple-800/30
-               border border-purple-500/30
-               hover:border-purple-500/50
-               transition-all duration-500"
-  >
-    <div className="relative h-[300px] overflow-hidden">
-      <motion.div
-        className="w-full h-full"
-        initial={{ scale: 1 }}
-        whileHover={{ scale: 1.05 }}
-        transition={{ duration: 0.4 }}
-      >
-        <img
-          src={project.img}
-          alt={project.title}
-          className="w-full h-full object-contain bg-[#030014]/80 p-4"
-          loading="lazy"
-        />
-      </motion.div>
-      
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ 
-          opacity: isHovered ? 1 : 0,
-          y: isHovered ? 0 : 20
-        }}
-        transition={{ duration: 0.3 }}
-        className="absolute inset-0 bg-gradient-to-t 
-                   from-[#030014]/95 via-[#030014]/90 to-transparent
-                   flex flex-col justify-end p-6
-                   backdrop-blur-[2px]"
-      >
-        <h3 className="text-2xl font-bold mb-2 
-                     bg-gradient-to-r from-purple-400 to-pink-400 
-                     bg-clip-text text-transparent">
-          {project.title}
-        </h3>
-        <p className="text-gray-200 mb-6 text-base">
-          {project.description}
-        </p>
-        <div className="flex gap-3">
-          <ProjectButton 
-            href={project.links.site} 
-            icon={<AiOutlineEye />} 
-            label="Demo" 
+const ProjectCard = ({ project, index, isHovered, onHover }) => {
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    setIsTouchDevice('ontouchstart' in window);
+  }, []);
+
+  const handleInteraction = () => {
+    if (isTouchDevice) {
+      setIsActive(!isActive);
+    }
+  };
+
+  const showOverlay = isTouchDevice ? isActive : isHovered;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      onHoverStart={() => !isTouchDevice && onHover(index)} 
+      onHoverEnd={() => !isTouchDevice && onHover(null)}
+      onClick={handleInteraction}
+      className="group relative rounded-2xl overflow-hidden
+                 bg-gradient-to-br from-purple-900/40 to-purple-800/30
+                 border border-purple-500/30
+                 hover:border-purple-500/50
+                 transition-all duration-500"
+    >
+      <div className="relative h-[300px] overflow-hidden">
+        <motion.div
+          className="w-full h-full"
+          initial={{ scale: 1 }}
+          whileHover={!isTouchDevice && { scale: 1.05 }}
+          transition={{ duration: 0.4 }}
+        >
+          <img
+            src={project.img}
+            alt={project.title}
+            className="w-full h-full object-contain bg-[#030014]/80 p-4"
+            loading="lazy"
           />
-          <ProjectButton 
-            href={project.links.github} 
-            icon={<AiOutlineGithub />} 
-            label="Code" 
-          />
-        </div>
-      </motion.div>
-    </div>
-  </motion.div>
-);
+        </motion.div>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ 
+            opacity: showOverlay ? 1 : 0,
+            y: showOverlay ? 0 : 20
+          }}
+          transition={{ duration: 0.3 }}
+          className="absolute inset-0 bg-gradient-to-t 
+                     from-[#030014]/95 via-[#030014]/90 to-transparent
+                     flex flex-col justify-end p-6
+                     backdrop-blur-[2px]"
+        >
+          <h3 className="text-2xl font-bold mb-2 
+                       bg-gradient-to-r from-purple-400 to-pink-400 
+                       bg-clip-text text-transparent">
+            {project.title}
+          </h3>
+          <p className="text-gray-200 mb-6 text-base">
+            {project.description}
+          </p>
+          <div className="flex gap-3">
+            <ProjectButton 
+              href={project.links.site} 
+              icon={<AiOutlineEye />} 
+              label="Demo" 
+            />
+            <ProjectButton 
+              href={project.links.github} 
+              icon={<AiOutlineGithub />} 
+              label="Code" 
+            />
+          </div>
+        </motion.div>
+
+        {isTouchDevice && (
+          <div className="absolute top-2 right-2 text-sm text-purple-400 bg-[#030014]/80 px-2 py-1 rounded">
+            Tap to {isActive ? 'close' : 'view'} details
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+};
 
 const Portfolio = () => {
   const [hoveredProject, setHoveredProject] = useState(null);
