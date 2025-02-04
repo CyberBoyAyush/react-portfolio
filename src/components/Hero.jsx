@@ -18,7 +18,7 @@ const FloatingIcon = ({ Icon, className, animate }) => {
 
   return (
     <motion.div
-      className={`absolute text-purple-500/30 ${className}`}
+      className={`absolute text-purple-500/25 ${className}`} // Changed from /20 to /25
       animate={{
         ...animate,
         x: [0, (mousePosition.x * 0.02), 0],
@@ -31,7 +31,7 @@ const FloatingIcon = ({ Icon, className, animate }) => {
         ease: "easeInOut"
       }}
     >
-      <Icon className="w-12 h-12 md:w-16 md:h-16" />
+      <Icon className="w-12 h-12 md:w-16 md:h-16 opacity-25" /> {/* Changed from opacity-20 to opacity-25 */}
     </motion.div>
   );
 };

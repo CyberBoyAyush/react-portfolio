@@ -1,152 +1,118 @@
-import React from "react"
-import {
-  DiHtml5,
-  DiCss3,
-  DiSass,
-  DiBootstrap,
-  DiJavascript1,
-  DiReact,
-  DiNodejsSmall,
-  DiMongodb,
-  DiGithubBadge,
-  DiJava,
-  DiPython,
-  DiGit,
-} from "react-icons/di"
-import { SiTailwindcss, SiCplusplus, SiNumpy, SiTensorflow, SiFigma } from "react-icons/si"
-import Reveal from "./Reveal"
+import React, { useState, useEffect } from "react"
+import { DiHtml5, DiCss3, DiJavascript1, DiReact, DiNodejsSmall, DiMongodb, DiJava, DiPython, DiGit } from "react-icons/di"
+import { SiTailwindcss, SiCplusplus, SiTensorflow, SiFigma } from "react-icons/si"
 import { motion } from "framer-motion"
 
 const skills = [
-    {
-      category: 'Web Development',
-      technologies: [
-        { name: 'HTML', icon: <DiHtml5 className='text-orange-600' />, level: 90 },
-        { name: 'CSS', icon: <DiCss3 className='text-blue-600' />, level: 85 },
-        { name: 'JavaScript', icon: <DiJavascript1 className='text-yellow-500' />, level: 88 },
-        { name: 'React', icon: <DiReact className='text-blue-500' />, level: 85 },
-        { name: 'Node.js', icon: <DiNodejsSmall className='text-green-500' />, level: 80 },
-        { name: 'MongoDB', icon: <DiMongodb className='text-green-600' />, level: 75 },
-      ],
-    },
-    {
-      category: 'Languages and Tools',
-      technologies: [
-        { name: 'C++', icon: <SiCplusplus className='text-blue-600' />, level: 85 },
-        { name: 'Java', icon: <DiJava className='text-red-600' />, level: 80 },
-        { name: 'Python', icon: <DiPython className='text-yellow-600' />, level: 75 },
-        { name: 'Git', icon: <DiGit className='text-red-600' />, level: 85 },
-        { name: 'TensorFlow', icon: <SiTensorflow className='text-orange-500' />, level: 70 },
-        { name: 'Figma', icon: <SiFigma className='text-purple-600' />, level: 75 },
-      ],
-    },
-]
+  {
+    category: 'Technologies I Love',
+    items: [
+      { name: 'HTML5', icon: <DiHtml5 />, color: 'text-[#E34F26]', bgColor: 'bg-[#E34F26]/10' },
+      { name: 'CSS3', icon: <DiCss3 />, color: 'text-[#1572B6]', bgColor: 'bg-[#1572B6]/10' },
+      { name: 'JavaScript', icon: <DiJavascript1 />, color: 'text-[#F7DF1E]', bgColor: 'bg-[#F7DF1E]/10' },
+      { name: 'React', icon: <DiReact />, color: 'text-[#61DAFB]', bgColor: 'bg-[#61DAFB]/10' },
+      { name: 'Node.js', icon: <DiNodejsSmall />, color: 'text-[#339933]', bgColor: 'bg-[#339933]/10' },
+      { name: 'MongoDB', icon: <DiMongodb />, color: 'text-[#47A248]', bgColor: 'bg-[#47A248]/10' },
+      { name: 'Python', icon: <DiPython />, color: 'text-[#3776AB]', bgColor: 'bg-[#3776AB]/10' },
+      { name: 'Java', icon: <DiJava />, color: 'text-[#007396]', bgColor: 'bg-[#007396]/10' },
+      { name: 'C++', icon: <SiCplusplus />, color: 'text-[#00599C]', bgColor: 'bg-[#00599C]/10' },
+      { name: 'Tailwind', icon: <SiTailwindcss />, color: 'text-[#06B6D4]', bgColor: 'bg-[#06B6D4]/10' },
+      { name: 'Git', icon: <DiGit />, color: 'text-[#F05032]', bgColor: 'bg-[#F05032]/10' },
+      { name: 'TensorFlow', icon: <SiTensorflow />, color: 'text-[#FF6F00]', bgColor: 'bg-[#FF6F00]/10' },
+    ]
+  }
+];
 
-const SkillCard = ({ skill, index }) => {
+const TechCard = ({ item, index }) => {
+  const [isActive, setIsActive] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  useEffect(() => {
+    setIsTouchDevice('ontouchstart' in window);
+  }, []);
+
+  const handleInteraction = () => {
+    if (isTouchDevice) {
+      setIsActive(!isActive);
+    }
+  };
+
+  const isAnimated = isTouchDevice ? isActive : undefined; // undefined will allow hover on desktop
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="perspective-1000"
+      whileHover={!isTouchDevice ? { y: -5, scale: 1.05 } : undefined}
+      animate={isAnimated ? { y: -5, scale: 1.05 } : { y: 0, scale: 1 }}
+      onClick={handleInteraction}
+      className={`relative group p-6 rounded-xl backdrop-blur-sm
+                border border-white/10 ${item.bgColor}
+                hover:border-white/20 transition-all duration-300
+                flex flex-col items-center gap-3 cursor-pointer`}
     >
       <motion.div
-        whileHover={{ 
-          scale: 1.02,
-          rotateX: 5,
-          rotateY: 5,
-        }}
-        className="skill-card relative overflow-hidden p-6 rounded-xl
-                   bg-[#0f0f0f] border border-purple-500/30
-                   w-full transition-all duration-300 ease-out
-                   hover:shadow-[0_0_30px_rgba(147,51,234,0.3)] 
-                   hover:border-purple-500/60"
+        whileHover={!isTouchDevice ? { rotate: 360 } : undefined}
+        animate={isAnimated ? { rotate: 360 } : { rotate: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 10 }}
+        className={`text-5xl md:text-6xl ${item.color}`}
       >
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
-        
-        <h3 className="text-2xl font-bold mb-6 text-center text-purple-400">
-          {skill.category}
-        </h3>
-
-        <div className="grid gap-4">
-          {skill.technologies.map((tech, idx) => (
-            <motion.div
-              key={idx}
-              className="relative"
-              whileHover={{ scale: 1.02 }}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: idx * 0.1 }}
-            >
-              <div className="flex items-center gap-3 mb-1">
-                <motion.span
-                  className="text-2xl"
-                  whileHover={{ rotate: 360, scale: 1.2 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {tech.icon}
-                </motion.span>
-                <span className="text-gray-200 font-medium">{tech.name}</span>
-              </div>
-              
-              <div className="h-2 w-full bg-purple-900/30 rounded-full overflow-hidden">
-                <motion.div
-                  className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
-                  initial={{ width: 0 }}
-                  whileInView={{ width: `${tech.level}%` }}
-                  transition={{ duration: 1, delay: idx * 0.1 }}
-                />
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="absolute bottom-0 right-0 w-20 h-20 
-                        bg-gradient-to-t from-purple-500/20 to-transparent 
-                        rounded-tl-full transform translate-x-10 translate-y-10" />
+        {item.icon}
       </motion.div>
+      <span className={`font-medium ${item.color} text-sm md:text-base`}>
+        {item.name}
+      </span>
+      
+      {/* Glow Effect */}
+      <div 
+        className={`absolute inset-0 -z-10 rounded-xl transition-opacity duration-500
+                   ${item.bgColor} ${isAnimated || !isTouchDevice ? 'opacity-50 blur-xl' : 'opacity-0'}`}
+      />
+
+      {/* Touch indicator */}
+      {isTouchDevice && (
+        <div className="absolute top-2 right-2 text-xs text-white/50 bg-black/20 px-2 py-1 rounded-full">
+          Tap to interact
+        </div>
+      )}
     </motion.div>
-  )
-}
+  );
+};
 
 const Skills = () => {
   return (
-    <div className="relative max-w-[1200px] mx-auto px-4 py-16">
-      <motion.h2
-        initial={{ opacity: 0, y: -20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="text-4xl font-bold text-center mb-4 text-purple-400"
-      >
-        Skills & Technologies
-      </motion.h2>
+    <div className="relative min-h-screen py-20 px-4" id="skills">
+      {/* Background Elements */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-purple-500/30 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-pink-500/30 rounded-full blur-3xl" />
+      </div>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        className="text-center text-gray-300 mb-12 max-w-2xl mx-auto"
-      >
-        Experienced in various technologies and constantly learning new ones.
-        Check out my work on{' '}
-        <a 
-          href="https://github.com/CyberBoyAyush" 
-          className="text-purple-400 hover:text-purple-300 underline transition-colors"
-          target="_blank"
-          rel="noopener noreferrer"
+      <div className="max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="text-center mb-16"
         >
-          GitHub
-        </a>.
-      </motion.p>
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
+            Skills & Technologies
+          </h2>
+          <p className="text-gray-400 max-w-2xl mx-auto">
+            I love working with these technologies to build amazing things.
+            Always excited to learn and explore more!
+          </p>
+        </motion.div>
 
-      <div className="grid md:grid-cols-2 gap-8">
-        {skills.map((skill, index) => (
-          <SkillCard key={index} skill={skill} index={index} />
-        ))}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+          {skills[0].items.map((item, index) => (
+            <TechCard key={index} item={item} index={index} />
+          ))}
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Skills
+export default Skills;
