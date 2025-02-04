@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { AiOutlineGithub, AiOutlineLink, AiOutlineEye } from 'react-icons/ai';
+import { Particles } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
 import project1 from "../assets/project1.png"
 import project2 from "../assets/project2.png"
 import project3 from "../assets/project3.png"
 import project4 from "../assets/project4.png"
 import project5 from "../assets/project5.png"
-import { AiFillGithub, AiOutlineGithub } from 'react-icons/ai'
 import Reveal from './Reveal';
 
 const projects = [
@@ -55,71 +58,161 @@ const projects = [
     },
   ]
 
-const Portfolio = () => {
-  return (
-    <div className="relative overflow-hidden w-full">
-      <div className='max-w-[1000px] mx-auto p-6 md:my-20' id="portfolio">
-        <h2 className='text-4xl font-bold text-gray-200 mb-8 justify-center text-center 
-                     bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent'>
-            Portfolio
-        </h2>
-        {projects.map((project, index) => (
-            <Reveal>
-            <div key={index} 
-                className={`flex flex-col md:flex-row ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''} 
-                           mb-12 group relative rounded-xl overflow-hidden
-                           bg-gradient-to-br from-purple-900/30 to-purple-800/20 
-                           border border-purple-500/30 backdrop-blur-sm
-                           hover:shadow-[0_0_25px_rgba(147,51,234,0.3)] 
-                           transition-all duration-300 ease-in-out`}>
-                <div className='w-full md:w-1/2 p-4 transform transition-transform duration-300 
-                              group-hover:scale-105'>
-                    <img
-                        src={project.img}
-                        alt={project.title}
-                        className='w-full h-full object-cover rounded-lg shadow-lg 
-                                 hover:shadow-purple-500/50'
-                    />
-                </div>
-                <div className='w-full md:w-1/2 p-8 flex flex-col justify-center relative z-10'>
-                    <div className='absolute inset-0 bg-gradient-to-br from-purple-600/0 to-purple-900/0 
-                                  group-hover:from-purple-600/10 group-hover:to-purple-900/20 
-                                  transition-all duration-300'/>
-                    <h3 className='text-2xl font-semibold text-gray-200 mb-4 
-                                 transform transition-all duration-300 
-                                 group-hover:translate-x-2'>{project.title}</h3>
-                    <p className='text-gray-300 mb-6 transform transition-all duration-300 
-                                group-hover:translate-x-2'>{project.description}</p>
-                    <div className='flex space-x-4 transform transition-all duration-300 
-                                  group-hover:translate-x-2'>
-                        <a href={project.links.site}
-                            className='px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-800 
-                                     text-gray-200 rounded-lg 
-                                     hover:from-purple-700 hover:to-purple-900
-                                     transform hover:scale-105 hover:-translate-y-1
-                                     transition-all duration-300 ease-in-out
-                                     shadow-lg hover:shadow-purple-500/50
-                                     flex items-center space-x-2'>
-                            <span className='text-white'>Live Demo</span>
-                        </a>
-                        <a href={project.links.github}
-                            className='p-3 bg-gradient-to-r from-purple-600 to-purple-800 
-                                     text-gray-200 rounded-lg
-                                     hover:from-purple-700 hover:to-purple-900
-                                     transform hover:scale-105 hover:-translate-y-1
-                                     transition-all duration-300 ease-in-out
-                                     shadow-lg hover:shadow-purple-500/50
-                                     flex items-center text-xl'>
-                            <AiOutlineGithub/>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            </Reveal>
-        ))}
-      </div>
-    </div>
-  )
-}
+const ProjectButton = ({ href, icon, label }) => (
+  <motion.a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    whileHover={{ 
+      scale: 1.05,
+      y: -2,
+      boxShadow: "0 15px 30px -5px rgba(147, 51, 234, 0.4)"
+    }}
+    whileTap={{ scale: 0.95 }}
+    className="flex items-center gap-2 px-5 py-3 rounded-xl
+             bg-gradient-to-r from-purple-600 to-pink-600
+             hover:from-purple-500 hover:to-pink-500
+             text-white font-semibold
+             shadow-lg shadow-purple-900/30
+             hover:shadow-xl hover:shadow-purple-600/40
+             border border-purple-500/20
+             backdrop-blur-md z-50
+             group [&>*]:text-white" // Added [&>*]:text-white to force white text on all children
+  >
+    <span className="text-xl group-hover:scale-110 transition-transform text-white">
+      {icon}
+    </span>
+    <span className="text-white">{label}</span>
+  </motion.a>
+);
 
-export default Portfolio
+const ProjectCard = ({ project, index, isHovered, onHover }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay: index * 0.1 }}
+    onHoverStart={() => onHover(index)} 
+    onHoverEnd={() => onHover(null)}
+    className="group relative rounded-2xl overflow-hidden
+               bg-gradient-to-br from-purple-900/40 to-purple-800/30
+               border border-purple-500/30
+               hover:border-purple-500/50
+               transition-all duration-500"
+  >
+    <div className="relative h-[300px] overflow-hidden">
+      <motion.img
+        src={project.img}
+        alt={project.title}
+        className="w-full h-full object-cover"
+        initial={{ scale: 1 }}
+        whileHover={{ scale: 1.05 }}
+        transition={{ duration: 0.4 }}
+      />
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ 
+          opacity: isHovered ? 1 : 0,
+          y: isHovered ? 0 : 20
+        }}
+        transition={{ duration: 0.3 }}
+        className="absolute inset-0 bg-gradient-to-t 
+                   from-[#030014]/95 via-[#030014]/90 to-transparent
+                   flex flex-col justify-end p-6
+                   backdrop-blur-[2px]"
+      >
+        <h3 className="text-2xl font-bold mb-2 
+                     bg-gradient-to-r from-purple-400 to-pink-400 
+                     bg-clip-text text-transparent">
+          {project.title}
+        </h3>
+        <p className="text-gray-200 mb-6 text-base">
+          {project.description}
+        </p>
+        <div className="flex gap-3">
+          <ProjectButton 
+            href={project.links.site} 
+            icon={<AiOutlineEye />} 
+            label="Demo" 
+          />
+          <ProjectButton 
+            href={project.links.github} 
+            icon={<AiOutlineGithub />} 
+            label="Code" 
+          />
+        </div>
+      </motion.div>
+    </div>
+  </motion.div>
+);
+
+const Portfolio = () => {
+  const [hoveredProject, setHoveredProject] = useState(null);
+  
+  const particlesInit = async (engine) => {
+    await loadSlim(engine);
+  };
+
+  const particlesConfig = {
+    particles: {
+      color: { value: "#6b21a8" },
+      links: {
+        enable: true,
+        color: "#6b21a8",
+        opacity: 0.1,
+      },
+      move: {
+        enable: true,
+        speed: 0.6,
+      },
+      opacity: {
+        value: 0.3,
+      },
+      size: {
+        value: 2,
+      },
+    },
+  };
+
+  return (
+    <div className="relative min-h-screen py-20 px-4" id="portfolio">
+      <Particles
+        id="portfolioParticles"
+        init={particlesInit}
+        options={particlesConfig}
+        className="absolute inset-0 -z-10"
+      />
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+        className="max-w-[1200px] mx-auto"
+      >
+        <motion.h2
+          initial={{ y: 20, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-5xl font-bold text-center mb-12
+                     bg-gradient-to-r from-purple-400 to-pink-400 
+                     bg-clip-text text-transparent"
+        >
+          Featured Projects
+        </motion.h2>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={index}
+              project={project}
+              index={index}
+              isHovered={hoveredProject === index}
+              onHover={setHoveredProject}
+            />
+          ))}
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
+export default Portfolio;

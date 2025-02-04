@@ -23,10 +23,56 @@ import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import { Particles } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 
+const SocialLink = ({ href, icon }) => (
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group relative"
+  >
+    <motion.div
+      whileHover={{ 
+        scale: 1.15,
+        y: -3,
+      }}
+      className="p-2 rounded-xl bg-purple-900/20 border border-purple-500/20
+                 hover:bg-purple-800/30 hover:border-purple-500/40
+                 transition-all duration-300"
+    >
+      <div className="text-3xl md:text-4xl text-purple-500 group-hover:text-purple-400 
+                    transition-all duration-300 relative z-10">
+        {icon}
+      </div>
+      
+      <motion.div
+        className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-600/0 to-pink-600/0
+                   group-hover:from-purple-600/20 group-hover:to-pink-600/20 
+                   transition-all duration-300 -z-10"
+        animate={{
+          scale: [1, 1.1, 1],
+        }}
+        transition={{ duration: 2, repeat: Infinity }}
+      />
+    </motion.div>
+  </a>
+);
+
 const Hero = () => {
   const { scrollY } = useScroll();
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768); // 768px is typical md breakpoint
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const y1 = useTransform(scrollY, [0, 300], [0, -100]);
-  const y2 = useTransform(scrollY, [0, 300], [0, 100]);
+  const y2 = useTransform(scrollY, [0, 300], [0, isMobile ? 0 : 100]); // Don't transform on mobile
 
   const particlesInit = async (engine) => {
     await loadSlim(engine);
@@ -35,7 +81,7 @@ const Hero = () => {
   const particlesConfig = {
     particles: {
       number: { value: 80, density: { enable: true, value_area: 1000 } },
-      color: { value: ["#6b21a8", "#581c87", "#3b0764"] }, // Darker purple colors
+      color: { value: ["#581c87", "#7e22ce", "#6b21a8"] }, // Adjusted purple colors
       shape: { type: "circle" },
       opacity: {
         value: 0.5,
@@ -99,22 +145,27 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative overflow-hidden bg-[#030014]"> {/* Updated background color */}
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-[#030014] to-[#02000f]">
       <Particles
         id="tsparticles"
         init={particlesInit}
         options={particlesConfig}
         className="absolute inset-0 -z-10"
-        style={{ width: '100%', position: 'absolute' }}
+        style={{ 
+          width: '100%', 
+          height: '100%', 
+          position: 'fixed',
+          background: 'linear-gradient(to bottom, #030014, #02000f)'
+        }}
       />
       
       <motion.div 
-        className="mt-24 relative bg-transparent" // Added bg-transparent
+        className="mt-24 relative min-h-screen pb-20"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        <div className="max-w-[1200px] mx-auto px-4 bg-transparent"> {/* Added bg-transparent */}
+        <div className="max-w-[1200px] mx-auto px-4">
           <div className="grid md:grid-cols-2 place-items-center gap-8">
             <motion.div 
               style={{ y: y1 }} 
@@ -188,29 +239,13 @@ const Hero = () => {
                   Visit Profiles
                 </motion.a>
 
-                <motion.div className="flex gap-6 flex-row text-4xl md:text-6xl z-20">
+                <motion.div className="flex gap-6 flex-row z-20">
                   {[
                     { icon: <AiOutlineGithub />, href: "https://github.com/cyberboyayush" },
                     { icon: <AiOutlineLinkedin />, href: "https://linkedin.com/in/cyberboyayush" },
                     { icon: <AiOutlineX />, href: "https://twitter.com/cyberboyayush" }
                   ].map((social, index) => (
-                    <motion.a
-                      key={index}
-                      href={social.href}
-                      className="text-purple-600 hover:text-purple-400"
-                      whileHover={{ 
-                        scale: 1.2,
-                        rotate: [0, -10, 10, -10, 0],
-                        filter: "brightness(1.3)",
-                        transition: { duration: 0.5 }
-                      }}
-                      whileTap={{ scale: 0.9 }}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.2 }}
-                    >
-                      {social.icon}
-                    </motion.a>
+                    <SocialLink key={index} {...social} />
                   ))}
                 </motion.div>
               </motion.div>
@@ -218,7 +253,7 @@ const Hero = () => {
 
             <motion.div
               style={{ y: y2 }}
-              className="relative perspective-1000 w-full flex justify-center"
+              className="relative perspective-1000 w-full flex justify-center md:mt-0 mt-8"
               variants={itemVariants}
             >
               <motion.div 
@@ -243,7 +278,7 @@ const Hero = () => {
                   className="absolute -inset-4 bg-gradient-to-r from-purple-800 via-purple-700 to-purple-800 rounded-full blur-2xl opacity-20 z-0"
                   animate={{
                     scale: [1, 1.2, 1],
-                    opacity: [0.2, 0.3, 0.2],
+                    opacity: [0.2, 3, 0.2],
                     rotate: [0, 360],
                   }}
                   transition={{
@@ -296,7 +331,7 @@ const Hero = () => {
           </motion.div>
         </div>
 
-        <div className="absolute inset-0 hidden md:block">
+        <div className="absolute inset-0 hidden md:block pointer-events-none">
           <ShinyEffect left={0} top={0} size={1400} />
         </div>
       </motion.div>
