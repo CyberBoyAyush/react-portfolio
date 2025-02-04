@@ -3,6 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  color-scheme: dark;
+}
+
 /* Core fixes for horizontal scroll */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -21,11 +25,11 @@ html, body {
 
 body {
   font-family: "Space Grotesk", sans-serif;
-  background: linear-gradient(to bottom, #190b1f, #1a0b20, #200d26);
+  background-color: #0f0f0f;
+  color: white;
   min-height: 100vh;
   width: 100vw;
   overflow-x: hidden;
-  background-color: #030014;    
 }
 
 h2 {
@@ -138,6 +142,6 @@ a, button {
 }
 
 #root {
-  background-color: #030014;
   min-height: 100vh;
+  background-color: #0f0f0f;
 }
