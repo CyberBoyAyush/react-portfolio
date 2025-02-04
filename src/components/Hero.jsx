@@ -81,7 +81,7 @@ const Hero = () => {
   const particlesConfig = {
     particles: {
       number: { value: 80, density: { enable: true, value_area: 1000 } },
-      color: { value: ["#581c87", "#7e22ce", "#6b21a8"] }, // Adjusted purple colors
+      color: { value: ["#6b21a8", "#7e22ce"] }, // Adjusted to match theme
       shape: { type: "circle" },
       opacity: {
         value: 0.5,
@@ -145,7 +145,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-[#030014] to-[#02000f]">
+    <div className="relative min-h-screen overflow-hidden bg-[#0f0f0f]"> {/* Updated background color */}
       <Particles
         id="tsparticles"
         init={particlesInit}
@@ -155,7 +155,7 @@ const Hero = () => {
           width: '100%', 
           height: '100%', 
           position: 'fixed',
-          background: 'linear-gradient(to bottom, #030014, #02000f)'
+          background: '#0f0f0f' // Match site background
         }}
       />
       
