@@ -1,7 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaReact, FaNodeJs } from 'react-icons/fa';
+import { DiJavascript, DiMongodb } from 'react-icons/di';
+import { SiTypescript, SiNextdotjs, SiTailwindcss, SiFirebase } from 'react-icons/si';
+
+const FloatingIcon = ({ Icon, className, animate }) => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouse = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouse);
+    return () => window.removeEventListener('mousemove', handleMouse);
+  }, []);
+
+  return (
+    <motion.div
+      className={`absolute text-purple-500/30 ${className}`}
+      animate={{
+        ...animate,
+        x: [0, (mousePosition.x * 0.02), 0],
+        y: [0, (mousePosition.y * 0.02), 0],
+      }}
+      transition={{
+        duration: Math.random() * 10 + 10,
+        repeat: Infinity,
+        repeatType: "reverse",
+        ease: "easeInOut"
+      }}
+    >
+      <Icon className="w-12 h-12 md:w-16 md:h-16" />
+    </motion.div>
+  );
+};
 
 const Hero = () => {
   return (
@@ -127,7 +160,67 @@ const Hero = () => {
         </div>
       </div>
       
-      {/* Floating elements - Fixed structure */}
+      {/* Floating Tech Icons - Optimized Selection */}
+      <div className="absolute inset-0 pointer-events-none">
+        <FloatingIcon 
+          Icon={FaReact} 
+          className="top-[20%] right-[25%]"
+          animate={{ 
+            y: [0, -30, 0], 
+            rotate: [0, 360],
+            scale: [1, 1.1, 1]
+          }}
+        />
+        <FloatingIcon 
+          Icon={DiJavascript} 
+          className="bottom-1/4 left-[20%]"
+          animate={{ y: [0, -50, 0], rotate: [0, 15, 0] }}
+        />
+        <FloatingIcon 
+          Icon={SiNextdotjs} 
+          className="top-[35%] left-[25%]"
+          animate={{ y: [-25, 25], rotate: [0, 360] }}
+        />
+        <FloatingIcon 
+          Icon={SiTypescript} 
+          className="bottom-[35%] right-[30%]"
+          animate={{ 
+            y: [0, -25, 0],
+            x: [0, -15, 0],
+            rotate: [0, 20, 0] 
+          }}
+        />
+        <FloatingIcon 
+          Icon={FaNodeJs} 
+          className="top-[40%] right-[20%]"
+          animate={{ 
+            y: [0, -40, 0], 
+            x: [0, 20, 0],
+            rotate: [0, -15, 0] 
+          }}
+        />
+        <FloatingIcon 
+          Icon={DiMongodb} 
+          className="bottom-[25%] left-[30%]"
+          animate={{ 
+            y: [0, 30, 0],
+            scale: [1, 1.2, 1],
+            rotate: [0, 10, 0] 
+          }}
+        />
+        <FloatingIcon 
+          Icon={SiTailwindcss} 
+          className="top-[25%] left-[15%]"
+          animate={{ y: [-30, 30], rotate: [-20, 20] }}
+        />
+        <FloatingIcon 
+          Icon={SiFirebase} 
+          className="bottom-[30%] right-[15%]"
+          animate={{ scale: [1, 1.3, 1], rotate: [0, -360] }}
+        />
+      </div>
+
+      {/* Remove or adjust the existing floating elements if needed */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
         <div className="absolute top-1/2 right-1/3 w-3 h-3 bg-pink-500 rounded-full animate-pulse"></div>
