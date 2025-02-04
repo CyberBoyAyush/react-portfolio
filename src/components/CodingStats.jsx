@@ -160,7 +160,7 @@ const CodingStats = () => {
                   <motion.img
                     whileHover={{ scale: 1.02 }}
                     transition={{ type: "spring", stiffness: 300 }}
-                    src={`https://github-readme-streak-stats.herokuapp.com?user=${githubUsername}&theme=midnight-purple&hide_border=true&background=0D1117`}
+                    src={`https://github-readme-streak-stats.herokuapp.com/?user=${githubUsername}&theme=highcontrast&hide_border=false`}
                     alt="Github streak stats"
                     className="w-full rounded-lg shadow-lg hover:shadow-purple-500/30 
                              transition-all duration-300"
