@@ -1,25 +1,67 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { AiFillLinkedin, AiFillGithub, AiOutlineMail, AiOutlineTwitter } from "react-icons/ai"
 import { motion } from "framer-motion"
 import { Particles } from "@tsparticles/react"
 import { loadSlim } from "@tsparticles/slim"
 
-const StatsCard = ({ number, label }) => (
-  <motion.div
-    variants={{
-      hidden: { opacity: 0, y: 20 },
-      show: { opacity: 1, y: 0 }
-    }}
-    whileHover={{ scale: 1.05 }}
-    className="bg-gradient-to-br from-purple-900/40 to-purple-800/30
-             border border-purple-500/30 p-6 rounded-xl text-center
-             hover:shadow-[0_0_20px_rgba(147,51,234,0.3)]
-             transition-all duration-300"
-  >
-    <h4 className="text-3xl font-bold text-white mb-1">{number}</h4>
-    <p className="text-purple-300 text-sm">{label}</p>
-  </motion.div>
-);
+const StatsCard = ({ number, label }) => {
+  const [count, setCount] = useState(0);
+  const targetNumber = parseInt(number);
+
+  useEffect(() => {
+    let startTime;
+    let animationFrameId;
+
+    const animate = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = (timestamp - startTime) / 2000; // 2 seconds duration
+
+      if (progress < 1) {
+        setCount(Math.min(Math.floor(targetNumber * progress), targetNumber));
+        animationFrameId = requestAnimationFrame(animate);
+      } else {
+        setCount(targetNumber);
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          animationFrameId = requestAnimationFrame(animate);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    const element = document.getElementById(`stats-${label}`);
+    if (element) observer.observe(element);
+
+    return () => {
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      observer.disconnect();
+    };
+  }, [targetNumber]);
+
+  return (
+    <motion.div
+      id={`stats-${label}`}
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        show: { opacity: 1, y: 0 }
+      }}
+      whileHover={{ scale: 1.05 }}
+      className="bg-gradient-to-br from-purple-900/40 to-purple-800/30
+               border border-purple-500/30 p-6 rounded-xl text-center
+               hover:shadow-[0_0_20px_rgba(147,51,234,0.3)]
+               transition-all duration-300"
+    >
+      <motion.h4 className="text-3xl font-bold text-white mb-1">
+        {count}{number.includes('+') ? '+' : ''}
+      </motion.h4>
+      <p className="text-purple-300 text-sm">{label}</p>
+    </motion.div>
+  );
+};
 
 const FormInput = ({ type, placeholder, name }) => (
   <motion.input
