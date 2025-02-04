@@ -58,16 +58,14 @@ const SkillCard = ({ skill, index }) => {
           rotateY: 5,
         }}
         className="skill-card relative overflow-hidden p-6 rounded-xl
-                   bg-gradient-to-br from-purple-900/40 to-purple-800/30
-                   border border-purple-500/30 backdrop-blur-sm
+                   bg-[#0f0f0f] border border-purple-500/30
                    w-full transition-all duration-300 ease-out
                    hover:shadow-[0_0_30px_rgba(147,51,234,0.3)] 
                    hover:border-purple-500/60"
       >
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
         
-        <h3 className="text-2xl font-bold mb-6 text-center text-transparent bg-clip-text 
-                       bg-gradient-to-r from-purple-400 to-pink-400">
+        <h3 className="text-2xl font-bold mb-6 text-center text-purple-400">
           {skill.category}
         </h3>
 
@@ -115,19 +113,11 @@ const SkillCard = ({ skill, index }) => {
 const Skills = () => {
   return (
     <div className="relative max-w-[1200px] mx-auto px-4 py-16">
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        className="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-transparent"
-      />
-      
       <motion.h2
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-4xl font-bold text-center mb-4 text-transparent bg-clip-text 
-                   bg-gradient-to-r from-purple-400 to-pink-400"
+        className="text-4xl font-bold text-center mb-4 text-purple-400"
       >
         Skills & Technologies
       </motion.h2>
