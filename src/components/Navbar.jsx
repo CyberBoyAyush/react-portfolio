@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
 import { Link as ScrollLink } from 'react-scroll';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import 'boxicons';
 
 const Navbar = () => {
     const [nav, setNav] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+
+    // Handle scroll effect
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 20);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     const toggleNav = () => setNav(!nav);
     const closeNav = () => setNav(false);
@@ -22,75 +32,157 @@ const Navbar = () => {
     };
 
     return (
-        <div className='fixed top-0 left-0 w-full bg-opacity-70 backdrop-blur-md z-50'>
-            <div className='max-w-[1300px] mx-auto flex justify-between text-gray-200 text-xl items-center px-12 h-20'>
+        <motion.div 
+            className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+                scrolled ? 'bg-[#030014]/80 backdrop-blur-md' : 'bg-transparent'
+            }`}
+            initial={{ y: -100 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.5 }}
+        >
+            {/* Gradient line */}
+            <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
 
+            <div className='max-w-[1300px] mx-auto flex justify-between items-center px-4 md:px-12 h-20'>
                 {/* Logo */}
-                <a href="#" className="hover:text-purple-500 transition duration-300 flex items-center">
+                <motion.a 
+                    href="#"
+                    className="relative group flex items-center"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                >
                     <box-icon name='code-alt' color='#ffffff'></box-icon>
-                    <span className="ml-2">CyberBoyAyush</span>
-                </a>
+                    <span className="ml-2 text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">
+                        CyberBoyAyush
+                    </span>
+                    <motion.div
+                        className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg opacity-0 group-hover:opacity-30 blur transition duration-500"
+                        animate={{ scale: [1, 1.1, 1] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                    />
+                </motion.a>
 
                 {/* Desktop Menu */}
-                <ul className='hidden md:flex gap-12 cursor-pointer'>
-                    {["about", "portfolio", "contact"].map((section) => (
-                        <li key={section}>
+                <ul className='hidden md:flex items-center gap-8'>
+                    {["about", "portfolio", "contact"].map((section, index) => (
+                        <motion.li 
+                            key={section}
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.1 }}
+                        >
                             <ScrollLink
                                 to={section}
                                 smooth={true}
                                 offset={-70}
                                 duration={500}
-                                onClick={() => handleScroll(section)}
-                                className="hover:text-purple-500 transition duration-300"
+                                className="relative text-gray-300 hover:text-purple-400 transition-colors duration-300 group"
                             >
                                 {section.charAt(0).toUpperCase() + section.slice(1)}
+                                <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-purple-500 transition-all duration-300 group-hover:w-full" />
                             </ScrollLink>
-                        </li>
+                        </motion.li>
                     ))}
-                    <li>
-                        <a href="https://me.cyberboyayush.in/" target="_blank" rel="noopener noreferrer" className="border border-purple-500 rounded-xl p-4 hover:bg-purple-500 hover:text-white transition duration-300">
+                    <motion.li
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                    >
+                        <motion.a
+                            href="https://me.cyberboyayush.in/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="relative inline-flex items-center px-6 py-2 text-sm font-medium text-white bg-gradient-to-r from-purple-600/20 to-pink-600/20 
+                                     border border-purple-500 rounded-xl hover:from-purple-600/30 hover:to-pink-600/30"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                        >
                             Visit Profiles
-                        </a>
-                    </li>
+                            <motion.div
+                                className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-20 blur transition duration-500"
+                            />
+                        </motion.a>
+                    </motion.li>
                 </ul>
 
                 {/* Mobile Menu Button */}
-                <div onClick={toggleNav} className='md:hidden z-50 text-gray-200'>
-                    {nav ? <AiOutlineClose size={30} /> : <AiOutlineMenu size={30} />}
-                </div>
+                <motion.div 
+                    onClick={() => setNav(!nav)} 
+                    className='md:hidden z-50 cursor-pointer text-gray-200 hover:text-purple-400 transition-colors'
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                >
+                    {nav ? (
+                        <AiOutlineClose size={25} className="text-gray-200" />
+                    ) : (
+                        <AiOutlineMenu size={25} className="text-gray-200" />
+                    )}
+                </motion.div>
+
+                {/* Mobile Menu Overlay */}
+                <AnimatePresence>
+                    {nav && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+                            onClick={() => setNav(false)}
+                        />
+                    )}
+                </AnimatePresence>
 
                 {/* Mobile Menu */}
                 <motion.div
-                    initial={false}
-                    animate={nav ? { x: 0 } : { x: '-100%' }}
-                    transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                    className={`fixed left-0 top-0 w-full min-h-screen bg-gray-900 z-40 transition-transform ${nav ? "translate-x-0" : "-translate-x-full"}`}
-                    style={{ pointerEvents: nav ? 'auto' : 'none' }}
+                    className={`fixed right-0 top-0 w-[300px] h-screen bg-[#030014] z-40 p-8
+                              border-l border-purple-500/20 backdrop-blur-lg`}
+                    initial={{ x: '100%' }}
+                    animate={{ x: nav ? 0 : '100%' }}
+                    transition={{ type: "spring", damping: 20 }}
                 >
-                    <ul className='font-semibold text-4xl space-y-8 mt-24 text-center'>
-                        {["about", "portfolio", "contact"].map((section) => (
-                            <li key={section}>
+                    <ul className='space-y-8 mt-20'>
+                        {["about", "portfolio", "contact"].map((section, index) => (
+                            <motion.li 
+                                key={section}
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: index * 0.1 }}
+                            >
                                 <ScrollLink
                                     to={section}
                                     smooth={true}
                                     offset={-70}
                                     duration={500}
-                                    onClick={() => handleScroll(section)}
-                                    className="hover:text-purple-500 transition duration-300"
+                                    onClick={() => setNav(false)}
+                                    className="text-2xl text-gray-300 hover:text-purple-400 transition-colors duration-300 block"
                                 >
                                     {section.charAt(0).toUpperCase() + section.slice(1)}
                                 </ScrollLink>
-                            </li>
+                            </motion.li>
                         ))}
-                        <li>
-                            <a href="https://me.cyberboyayush.in/" target="_blank" rel="noopener noreferrer" onClick={closeNav} className="border border-purple-500 p-2 rounded-xl hover:bg-purple-500 hover:text-white transition duration-300">
+                        <motion.li
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.3 }}
+                        >
+                            <motion.a
+                                href="https://me.cyberboyayush.in/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={() => setNav(false)}
+                                className="inline-block px-6 py-3 text-lg font-medium text-white bg-gradient-to-r from-purple-600/20 to-pink-600/20 
+                                         border border-purple-500 rounded-xl hover:from-purple-600/30 hover:to-pink-600/30"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
                                 Visit Profiles
-                            </a>
-                        </li>
+                            </motion.a>
+                        </motion.li>
                     </ul>
                 </motion.div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 
