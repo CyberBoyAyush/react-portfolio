@@ -62,14 +62,24 @@ const Skills = () => {
 
         <div className="flex flex-col md:flex-row justify-center space-y-8 md:space-y-0 md:space-x-8">
             {skills.map((skill, index) => (
-                <div key={index} className="skill-card border border-purple-900 p-6 rounded-lg bg-purple-900/20 shadow-lg 
-                                w-full md:w-1/2 transition-transform transform hover:scale-100 hover:bg-purple-800/20">
-                    <h3 className="text-xl font-bold mb-4 text-center">{skill.category}</h3>
-                    <div className="grid grid-cols-2 gap-4">
+                <div key={index} className="skill-card relative overflow-hidden border border-purple-500/30 p-6 rounded-lg 
+                                bg-gradient-to-br from-purple-900/30 to-purple-800/20 backdrop-blur-sm
+                                w-full md:w-1/2 transition-all duration-300 ease-in-out
+                                hover:shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:border-purple-500/60
+                                group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-600/0 to-purple-900/0 
+                                  group-hover:from-purple-600/10 group-hover:to-purple-900/20 transition-all duration-300"/>
+                    <h3 className="text-xl font-bold mb-4 text-center relative z-10">{skill.category}</h3>
+                    <div className="grid grid-cols-2 gap-4 relative z-10">
                         {skill.technologies.map((tech, idx) => (
-                            <div key={idx} className="flex items-center space-x-2">
-                                <span className="text-2xl">{tech.icon}</span>
-                                <span class = "text-xl">{tech.name}</span>
+                            <div key={idx} 
+                                 className="flex items-center space-x-2 p-2 rounded-md 
+                                          transition-all duration-300 hover:bg-purple-700/20
+                                          transform hover:translate-x-1 hover:scale-105">
+                                <span className="text-2xl transition-transform duration-300 group-hover:scale-110">
+                                    {tech.icon}
+                                </span>
+                                <span className="text-xl">{tech.name}</span>
                             </div>
                         ))}
                     </div>
