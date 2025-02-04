@@ -31,6 +31,11 @@ const Navbar = () => {
         }, 300);
     };
 
+    const handleLogoClick = (e) => {
+        e.preventDefault();
+        window.location.reload();
+    };
+
     return (
         <motion.div 
             className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
@@ -44,10 +49,11 @@ const Navbar = () => {
             <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
 
             <div className='max-w-[1300px] mx-auto flex justify-between items-center px-4 md:px-12 h-20'>
-                {/* Logo */}
+                {/* Logo with reload functionality */}
                 <motion.a 
-                    href="#"
-                    className="relative group flex items-center"
+                    href="/"
+                    onClick={handleLogoClick}
+                    className="relative group flex items-center cursor-pointer"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                 >

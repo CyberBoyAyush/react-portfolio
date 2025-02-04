@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Hero from "./components/Hero";
 import Skills from "./components/Skills";
 import Portfolio from "./components/Portfolio";
@@ -8,14 +8,36 @@ import Navbar from "./components/Navbar";
 import Cursor from "./components/Cursor";
 import CodingStats from './components/CodingStats';
 import { motion, useScroll, useSpring } from "framer-motion";
+import Loading from './components/Loading';
 
 export default function App() {
+  const [loading, setLoading] = useState(true);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
     restDelta: 0.001
   });
+
+  useEffect(() => {
+    // Pre-load any critical resources here
+    const preloadResources = async () => {
+      try {
+        // Simulate resource loading
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        setLoading(false);
+      } catch (error) {
+        console.error('Loading error:', error);
+        setLoading(false); // Ensure content shows even if there's an error
+      }
+    };
+
+    preloadResources();
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="min-h-screen bg-[#0f0f0f]">

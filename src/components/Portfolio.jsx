@@ -100,14 +100,20 @@ const ProjectCard = ({ project, index, isHovered, onHover }) => (
                transition-all duration-500"
   >
     <div className="relative h-[300px] overflow-hidden">
-      <motion.img
-        src={project.img}
-        alt={project.title}
-        className="w-full h-full object-cover"
+      <motion.div
+        className="w-full h-full"
         initial={{ scale: 1 }}
         whileHover={{ scale: 1.05 }}
         transition={{ duration: 0.4 }}
-      />
+      >
+        <img
+          src={project.img}
+          alt={project.title}
+          className="w-full h-full object-contain bg-[#030014]/80 p-4"
+          loading="lazy"
+        />
+      </motion.div>
+      
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ 
