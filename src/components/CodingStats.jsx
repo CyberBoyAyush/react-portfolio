@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
-import Reveal from './Reveal'
-import { AiOutlineGithub, AiFillFire } from 'react-icons/ai'
-import { BiGitRepoForked, BiGitCommit } from 'react-icons/bi'
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import Reveal from "./Reveal";
+import { AiOutlineGithub, AiFillFire } from "react-icons/ai";
+import { BiGitRepoForked, BiGitCommit } from "react-icons/bi";
 
 const StatsCard = ({ children, className }) => (
   <motion.div
-    whileHover={{ 
+    whileHover={{
       y: -10,
       scale: 1.02,
-      boxShadow: "0 20px 40px -15px rgba(147, 51, 234, 0.4)"
+      boxShadow: "0 20px 40px -15px rgba(147, 51, 234, 0.4)",
     }}
     transition={{
       type: "spring",
       stiffness: 300,
-      damping: 20
+      damping: 20,
     }}
     className={`${className} transform-gpu`}
   >
@@ -24,7 +24,7 @@ const StatsCard = ({ children, className }) => (
 
 const ViewProfileButton = ({ href }) => (
   <motion.a
-    whileHover={{ 
+    whileHover={{
       scale: 1.05,
       y: -2,
     }}
@@ -45,64 +45,72 @@ const ViewProfileButton = ({ href }) => (
       animate={{ x: [0, 4, 0] }}
       transition={{ duration: 1.5, repeat: Infinity }}
     >
-      →
+      <span className="text-white">→</span>
     </motion.span>
   </motion.a>
 );
 
 const CodingStats = () => {
-  const leetcodeUsername = "cyberboyayush"
-  const githubUsername = "cyberboyayush"
+  const leetcodeUsername = "cyberboyayush";
+  const githubUsername = "cyberboyayush";
   const [githubStats, setGithubStats] = useState({
-    repos: '...',
-    commits: '...',
-    streak: '...',
-    totalContributions: '...'
-  })
-  const [loading, setLoading] = useState(true)
+    repos: "...",
+    commits: "...",
+    streak: "...",
+    totalContributions: "...",
+  });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchGitHubStats = async () => {
       try {
         // Fetch basic user data
-        const userResponse = await fetch(`https://api.github.com/users/${githubUsername}`)
-        const userData = await userResponse.json()
+        const userResponse = await fetch(
+          `https://api.github.com/users/${githubUsername}`
+        );
+        const userData = await userResponse.json();
 
         // Fetch contribution stats using GitHub's REST API
-        const statsResponse = await fetch(`https://api.github.com/users/${githubUsername}/repos`)
-        const repos = await statsResponse.json()
-        
+        const statsResponse = await fetch(
+          `https://api.github.com/users/${githubUsername}/repos`
+        );
+        const repos = await statsResponse.json();
+
         // Calculate total commits (approximate from public repos)
-        let totalCommits = 0
+        let totalCommits = 0;
         await Promise.all(
           repos.map(async (repo) => {
-            const commitResponse = await fetch(`https://api.github.com/repos/${githubUsername}/${repo.name}/commits?per_page=1`)
-            const commitData = await commitResponse.json()
+            const commitResponse = await fetch(
+              `https://api.github.com/repos/${githubUsername}/${repo.name}/commits?per_page=1`
+            );
+            const commitData = await commitResponse.json();
             if (Array.isArray(commitData)) {
-              totalCommits += repo.size // Using repo size as an approximation
+              totalCommits += repo.size; // Using repo size as an approximation
             }
           })
-        )
+        );
 
         // Use GitHub's contribution calendar for streak
-        const calendarResponse = await fetch(`https://github-contributions-api.deno.dev/${githubUsername}`)
-        const calendarData = await calendarResponse.json()
-        
+        const calendarResponse = await fetch(
+          `https://github-contributions-api.deno.dev/${githubUsername}`
+        );
+        const calendarData = await calendarResponse.json();
+
         setGithubStats({
           repos: userData.public_repos,
           commits: Math.floor(totalCommits / 100), // Rough estimate
-          streak: calendarData?.currentStreak || '0',
-          totalContributions: calendarData?.totalContributions || '0'
-        })
-        setLoading(false)
+          streak: calendarData?.currentStreak || "0",
+          totalContributions: calendarData?.totalContributions || "0",
+        });
+        setLoading(false);
       } catch (error) {
-        console.error('Error fetching GitHub stats:', error)
-        setLoading(false)
+        console.error("Error fetching GitHub stats:", error);
+        setLoading(false);
       }
-    }
+    };
 
-    fetchGitHubStats()
-  }, [])
+    fetchGitHubStats();
+  }, []);
 
   // Loading skeleton component
   const StatsSkeleton = () => (
@@ -116,17 +124,19 @@ const CodingStats = () => {
       <div className="h-40 bg-purple-800/20 rounded mb-4"></div>
       <div className="h-40 bg-purple-800/20 rounded"></div>
     </div>
-  )
+  );
 
   return (
-    <div className="max-w-[1000px] mx-auto p-6 md:my-20">
+    <div className="w-full mx-auto gap-7 p-6 md:my-20 flex justify-center">
       <Reveal>
-        <h2 className='text-4xl font-bold mb-8 justify-center text-center 
-                      bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent'>
+        <h2
+          className="text-4xl font-bold mb-8 justify-center text-center 
+                      bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent"
+        >
           Coding Activity
         </h2>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid px-10 md:grid-cols-2 gap-8">
           {/* GitHub Stats Card */}
           <StatsCard
             className="bg-gradient-to-br from-purple-900/30 to-purple-800/20 
@@ -145,8 +155,10 @@ const CodingStats = () => {
             >
               <AiOutlineGithub className="text-3xl" /> GitHub Stats
             </motion.h3>
-            
-            {loading ? <StatsSkeleton /> : (
+
+            {loading ? (
+              <StatsSkeleton />
+            ) : (
               <div className="space-y-4">
                 <motion.div className="space-y-4 mt-6">
                   <motion.img
@@ -168,7 +180,9 @@ const CodingStats = () => {
                 </motion.div>
 
                 <div className="mt-6 flex justify-center">
-                  <ViewProfileButton href={`https://github.com/${githubUsername}`} />
+                  <ViewProfileButton
+                    href={`https://github.com/${githubUsername}`}
+                  />
                 </div>
               </div>
             )}
@@ -198,7 +212,7 @@ const CodingStats = () => {
               className="overflow-hidden rounded-lg bg-purple-900/20 shadow-lg 
                         hover:shadow-purple-500/30 transition-all duration-300"
             >
-              <img 
+              <img
                 src={`https://leetcard.jacoblin.cool/${leetcodeUsername}?theme=dark&font=Roboto&ext=heatmap`}
                 alt="LeetCode stats"
                 className="w-full"
@@ -206,13 +220,15 @@ const CodingStats = () => {
             </motion.div>
 
             <div className="mt-6 flex justify-center">
-              <ViewProfileButton href={`https://leetcode.com/${leetcodeUsername}`} />
+              <ViewProfileButton
+                href={`https://leetcode.com/${leetcodeUsername}`}
+              />
             </div>
           </StatsCard>
         </div>
       </Reveal>
     </div>
-  )
-}
+  );
+};
 
-export default CodingStats
+export default CodingStats;
