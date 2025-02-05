@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from "react"
-import { AiFillLinkedin, AiFillGithub, AiOutlineMail, AiOutlineTwitter } from "react-icons/ai"
-import { motion } from "framer-motion"
-import { Particles } from "@tsparticles/react"
-import { loadSlim } from "@tsparticles/slim"
+import React, { useState, useEffect } from "react";
+import {
+  AiFillLinkedin,
+  AiFillGithub,
+  AiOutlineMail,
+  AiOutlineTwitter,
+} from "react-icons/ai";
+import { motion } from "framer-motion";
+import { Particles } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
 
 const StatsCard = ({ number, label }) => {
   const [count, setCount] = useState(0);
@@ -47,7 +52,7 @@ const StatsCard = ({ number, label }) => {
       id={`stats-${label}`}
       variants={{
         hidden: { opacity: 0, y: 20 },
-        show: { opacity: 1, y: 0 }
+        show: { opacity: 1, y: 0 },
       }}
       whileHover={{ scale: 1.05 }}
       className="bg-gradient-to-br from-purple-900/40 to-purple-800/30
@@ -56,7 +61,8 @@ const StatsCard = ({ number, label }) => {
                transition-all duration-300"
     >
       <motion.h4 className="text-3xl font-bold text-white mb-1">
-        {count}{number.includes('+') ? '+' : ''}
+        {count}
+        {number.includes("+") ? "+" : ""}
       </motion.h4>
       <p className="text-purple-300 text-sm">{label}</p>
     </motion.div>
@@ -146,7 +152,8 @@ const Contact = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-gray-400 max-w-2xl mx-auto"
           >
-            Have a project in mind or want to collaborate? I'd love to hear from you!
+            Have a project in mind or want to collaborate? I'd love to hear from
+            you!
           </motion.p>
         </div>
 
@@ -157,7 +164,8 @@ const Contact = () => {
             transition={{ duration: 0.5 }}
             className="space-y-8"
           >
-            <div className="bg-gradient-to-br from-purple-900/40 to-purple-800/30 backdrop-blur-md
+            <div
+              className="bg-gradient-to-br from-purple-900/40 to-purple-800/30 backdrop-blur-md
                           border border-purple-500/30 p-8 rounded-2xl
                           transform hover:-translate-y-1 transition-all duration-300
                           hover:shadow-[0_0_30px_rgba(147,51,234,0.3)]"
@@ -166,17 +174,34 @@ const Contact = () => {
                 About Me
               </h3>
               <p className="text-gray-300 leading-relaxed">
-                Feel free to reach out for opportunities, collaborations, or just a tech chat! 
-                Always excited to explore new ideas and build amazing things together.
+                Feel free to reach out for opportunities, collaborations, or
+                just a tech chat! Always excited to explore new ideas and build
+                amazing things together.
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-4 justify-center">
               {[
-                { icon: <AiFillGithub />, href: "https://github.com/cyberboyayush", label: "GitHub" },
-                { icon: <AiFillLinkedin />, href: "https://linkedin.com/in/cyberboyayush", label: "LinkedIn" },
-                { icon: <AiOutlineTwitter />, href: "https://twitter.com/cyberboyayush", label: "Twitter" },
-                { icon: <AiOutlineMail />, href: "mailto:contact@cyberboyayush.in", label: "Email" }
+                {
+                  icon: <AiFillGithub />,
+                  href: "https://github.com/cyberboyayush",
+                  label: "GitHub",
+                },
+                {
+                  icon: <AiFillLinkedin />,
+                  href: "https://linkedin.com/in/cyberboyayush",
+                  label: "LinkedIn",
+                },
+                {
+                  icon: <AiOutlineTwitter />,
+                  href: "https://twitter.com/cyberboyayush",
+                  label: "Twitter",
+                },
+                {
+                  icon: <AiOutlineMail />,
+                  href: "mailto:contact@cyberboyayush.in",
+                  label: "Email",
+                },
               ].map((social, index) => (
                 <motion.a
                   key={index}
@@ -203,9 +228,9 @@ const Contact = () => {
                 show: {
                   opacity: 1,
                   transition: {
-                    staggerChildren: 0.2
-                  }
-                }
+                    staggerChildren: 0.2,
+                  },
+                },
               }}
               initial="hidden"
               whileInView="show"
