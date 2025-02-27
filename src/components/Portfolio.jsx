@@ -8,9 +8,18 @@ import project2 from "../assets/project2.png"
 import project3 from "../assets/project3.png"
 import project4 from "../assets/project4.png"
 import project5 from "../assets/project5.png"
+import project6 from "../assets/project6.png"
 import Reveal from './Reveal';
 
 const projects = [
+    {
+      img: project6,
+      title: "PortDev",
+      description: "Create Devloper Portfolio in Minutes.",
+      links: {
+        site: "https://portdevv.vercel.app/",
+      },
+    },
     {
       img: project1,
       title: "React Portfolio",
@@ -25,7 +34,6 @@ const projects = [
       title: "Zarina Bot",
       description: "An AI Based Group Chat Bot for Telegram",
       links: {
-        site: "https://github.com/CyberBoyAyush/ZarinaBot",
         github: "https://github.com/CyberBoyAyush/ZarinaBot",
       },
     },
@@ -43,7 +51,6 @@ const projects = [
       title: "GP Links Bot",
       description: "Link Shortner Bot Works On GPLinks API.",
       links: {
-        site: "https://github.com/CyberBoyAyush/GPLinksBot",
         github: "https://github.com/CyberBoyAyush/GPLinksBot",
       },
     },
@@ -152,16 +159,20 @@ const ProjectCard = ({ project, index, isHovered, onHover }) => {
             {project.description}
           </p>
           <div className="flex gap-3">
-            <ProjectButton 
-              href={project.links.site} 
-              icon={<AiOutlineEye />} 
-              label="Demo" 
-            />
-            <ProjectButton 
-              href={project.links.github} 
-              icon={<AiOutlineGithub />} 
-              label="Code" 
-            />
+            {project.links.site && (
+              <ProjectButton 
+                href={project.links.site} 
+                icon={<AiOutlineEye />} 
+                label="Demo" 
+              />
+            )}
+            {project.links.github && (
+              <ProjectButton 
+                href={project.links.github} 
+                icon={<AiOutlineGithub />} 
+                label="Code" 
+              />
+            )}
           </div>
         </motion.div>
 
