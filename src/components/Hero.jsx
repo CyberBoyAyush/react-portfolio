@@ -146,7 +146,7 @@ const Hero = () => {
               
               {/* Profile image */}
               <motion.img
-                src="/profile.png"
+                src="/profile-comp.png"
                 alt="Profile"
                 className="relative z-10 rounded-full w-full h-full object-cover transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-purple-500/50"
                 whileHover={{ rotate: [0, -5, 5, 0] }}
