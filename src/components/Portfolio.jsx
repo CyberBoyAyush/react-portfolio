@@ -9,15 +9,26 @@ import project3 from "../assets/project3.png"
 import project4 from "../assets/project4.png"
 import project5 from "../assets/project5.png"
 import project6 from "../assets/project6.png"
+import project7 from "../assets/project7.png"
 import Reveal from './Reveal';
 
 const projects = [
+    {
+      img: project7,
+      title: "Intellica",
+      description: "AI powered learning platform for personalized learning experience.",
+      links: {
+        site: "https://intellica.ayush-sharma.in/",
+        github:"https://github.com/cyberboyayush/intellica",
+      },
+    },
     {
       img: project6,
       title: "PortDev",
       description: "Create Devloper Portfolio in Minutes.",
       links: {
         site: "https://portdevv.vercel.app/",
+        github:"https://github.com/cyberboyayush/portdev",
       },
     },
     {
