@@ -199,7 +199,7 @@ const Contact = () => {
                 },
                 {
                   icon: <AiOutlineMail />,
-                  href: "mailto:contact@cyberboyayush.in",
+                  href: "mailto:connect@ayush-sharma.in",
                   label: "Email",
                 },
               ].map((social, index) => (
