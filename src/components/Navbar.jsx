@@ -3,10 +3,12 @@ import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
 import { Link as ScrollLink } from 'react-scroll';
 import { motion, AnimatePresence } from 'framer-motion';
 import 'boxicons';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
     const [nav, setNav] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const navigate = useNavigate();
 
     // Handle scroll effect
     useEffect(() => {
@@ -33,7 +35,7 @@ const Navbar = () => {
 
     const handleLogoClick = (e) => {
         e.preventDefault();
-        window.location.reload();
+        navigate('/');
     };
 
     return (
@@ -95,7 +97,7 @@ const Navbar = () => {
                         transition={{ delay: 0.3 }}
                     >
                         <motion.a
-                            href="https://me.cyberboyayush.in/"
+                            href="/links"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="relative inline-flex items-center px-6 py-2 text-sm font-medium text-white bg-gradient-to-r from-purple-600/20 to-pink-600/20 
@@ -173,7 +175,7 @@ const Navbar = () => {
                             transition={{ delay: 0.3 }}
                         >
                             <motion.a
-                                href="https://me.cyberboyayush.in/"
+                                href="/links"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={() => setNav(false)}

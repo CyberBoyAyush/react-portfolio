@@ -78,7 +78,7 @@ const Hero = () => {
             </p>
             <div className="flex gap-4">
               <motion.a
-                href="https://me.cyberboyayush.in/"
+                href="/links"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Noto+Sans:ital@0;1&family=Space+Grotesk:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -24,12 +24,16 @@ html, body {
 }
 
 body {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   background-color: #0f0f0f;
   color: white;
   min-height: 100vh;
   width: 100vw;
   overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Outfit", system-ui, -apple-system, sans-serif;
 }
 
 h2 {
@@ -78,6 +82,15 @@ html {
   0% { transform: translateY(0px); }
   50% { transform: translateY(-20px); }
   100% { transform: translateY(0px); }
+}
+
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%) rotate(-45deg);
+  }
+  to {
+    transform: translateX(200%) rotate(-45deg);
+  }
 }
 
 .float {
@@ -144,4 +157,8 @@ a, button {
 #root {
   min-height: 100vh;
   background-color: #0f0f0f;
+}
+
+.drop-shadow-glow {
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
 }
