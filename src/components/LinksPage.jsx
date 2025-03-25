@@ -1,8 +1,8 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { SiGeeksforgeeks, SiLeetcode } from 'react-icons/si';
-import { AiOutlineMail, AiOutlineGlobal } from 'react-icons/ai';
+import { AiOutlineMail, AiOutlineGlobal, AiOutlineMessage, AiOutlineClose } from 'react-icons/ai';
 import { DiCode, DiCss3, DiHtml5, DiJavascript, DiReact, DiPython } from 'react-icons/di';
 import { SiTailwindcss, SiTypescript, SiNextdotjs } from 'react-icons/si';
 
@@ -81,6 +81,209 @@ const FloatingIcon = ({ Icon, className }) => (
   </motion.div>
 );
 
+const ContactForm = () => {
+  const [formData, setFormData] = useState({
+    email: '',
+    message: ''
+  });
+  const [status, setStatus] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (isSubmitting) return;
+    
+    setIsSubmitting(true);
+    setStatus('sending');
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: '0d328fdf-f462-44c9-ad9b-3b0df1fc64ad',
+          from_name: formData.email,
+          email: formData.email,
+          message: formData.message,
+          subject: `New message from ${formData.email}`,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setStatus('success');
+        setFormData({ email: '', message: '' });
+      } else {
+        throw new Error(data.message || 'Failed to send');
+      }
+    } catch (error) {
+      setStatus('error');
+      console.error('Submission error:', error);
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => setStatus(''), 3000);
+    }
+  };
+
+  return (
+    <motion.div
+      className="w-full max-w-lg mx-auto p-6"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.1 }}
+    >
+      <motion.h3 
+        className="text-2xl font-semibold text-white/90 mb-6 text-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        Send me a message
+      </motion.h3>
+      
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="relative group">
+          <label className="text-sm text-white/70 mb-2 block">Your Email</label>
+          <input
+            type="email"
+            value={formData.email}
+            onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+            placeholder="name@example.com"
+            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3
+                     text-white/90 placeholder-white/30 focus:outline-none focus:border-purple-500/50
+                     transition-all duration-300 backdrop-blur-sm"
+            required
+            disabled={isSubmitting}
+          />
+        </div>
+
+        <div className="relative group">
+          <label className="text-sm text-white/70 mb-2 block">Message</label>
+          <textarea
+            value={formData.message}
+            onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
+            placeholder="Your message here..."
+            className="w-full h-32 bg-white/5 border border-white/10 rounded-xl px-4 py-3
+                     text-white/90 placeholder-white/30 focus:outline-none focus:border-purple-500/50
+                     transition-all duration-300 backdrop-blur-sm resize-none"
+            required
+            disabled={isSubmitting}
+          />
+        </div>
+
+        <motion.button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-purple-600/80 to-pink-600/80
+                   text-white font-medium tracking-wide
+                   transition-all duration-300 relative overflow-hidden group
+                   disabled:opacity-50 disabled:cursor-not-allowed
+                   hover:from-purple-600 hover:to-pink-600"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <span className="relative z-10 flex items-center justify-center gap-2">
+            {status === 'sending' ? (
+              <>
+                <motion.span
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                >
+                  ⭕
+                </motion.span>
+                Sending...
+              </>
+            ) : 'Send Message'}
+          </span>
+        </motion.button>
+
+        {status && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className={`p-4 rounded-xl text-center ${
+              status === 'success' 
+                ? 'bg-green-500/20 text-green-400' 
+                : status === 'error'
+                ? 'bg-red-500/20 text-red-400'
+                : 'bg-purple-500/20 text-purple-400'
+            }`}
+          >
+            {status === 'success' 
+              ? '✅ Message sent successfully!' 
+              : status === 'error'
+              ? '❌ Failed to send message. Please try again.'
+              : '⏳ Sending message...'}
+          </motion.div>
+        )}
+      </form>
+    </motion.div>
+  );
+};
+
+const FloatingContactButton = ({ onClick }) => (
+  <motion.button
+    onClick={onClick}
+    className="fixed bottom-6 right-6 pl-3 pr-5 py-3 rounded-full 
+               bg-gradient-to-r from-purple-600/30 to-pink-600/30
+               border border-purple-500/50 backdrop-blur-md
+               group flex items-center gap-2
+               shadow-lg shadow-purple-500/20
+               hover:shadow-xl hover:shadow-purple-500/30
+               transition-all duration-300 z-50
+               scale-90"
+    whileHover={{ scale: 0.95 }}
+    whileTap={{ scale: 0.85 }}
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+  >
+    <div className="p-1.5 rounded-full bg-white/10 backdrop-blur-sm">
+      <AiOutlineMessage className="text-lg text-white group-hover:text-purple-300 transition-colors" />
+    </div>
+    <span className="text-xs font-medium text-white/90 group-hover:text-white">Message Me</span>
+    <motion.div
+      className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-600/20 to-pink-600/20 
+                 opacity-0 group-hover:opacity-100 transition-all duration-300 blur"
+    />
+  </motion.button>
+);
+
+const ContactModal = ({ isOpen, onClose }) => {
+  if (!isOpen) return null;
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+      >
+        <motion.div
+          className="bg-[#0a0a1f] rounded-2xl border border-purple-500/20 w-full max-w-lg
+                     relative backdrop-blur-xl shadow-2xl"
+          initial={{ scale: 0.9, y: 20 }}
+          animate={{ scale: 1, y: 0 }}
+          exit={{ scale: 0.9, y: 20 }}
+          onClick={e => e.stopPropagation()}
+        >
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 p-2 rounded-full bg-white/5 
+                     hover:bg-white/10 transition-colors"
+          >
+            <AiOutlineClose className="text-xl text-white/70 hover:text-white" />
+          </button>
+          <ContactForm />
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
+
 const LinksPage = () => {
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -148,6 +351,8 @@ const LinksPage = () => {
   };
 
   const name = "Ayush Sharma".split("");
+
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -401,6 +606,10 @@ const LinksPage = () => {
           </motion.div>
         </motion.div>
       </div>
+
+      {/* Floating Contact Button and Modal */}
+      <FloatingContactButton onClick={() => setIsContactOpen(true)} />
+      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
 
       {/* Glass Overlay */}
       <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-transparent via-[#0a0a1f]/50 to-[#0a0a1f]/80" />
