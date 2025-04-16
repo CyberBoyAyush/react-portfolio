@@ -3,18 +3,33 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { AiOutlineGithub, AiOutlineLink, AiOutlineEye } from 'react-icons/ai';
 import { Particles } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
-import project1 from "../assets/project1.png"
-import project2 from "../assets/project2.png"
-import project3 from "../assets/project3.png"
-import project4 from "../assets/project4.png"
-import project5 from "../assets/project5.png"
-import project6 from "../assets/project6.png"
-import project7 from "../assets/project7.png"
-import Reveal from './Reveal';
+import react_portfolio from "../assets/react-portfolio.png"
+import pathgenie from "../assets/pathgenie.png"
+import finwise from "../assets/finwise.png"
+import portdev from "../assets/portdev.png"
+import intellica from "../assets/intellica.png"
 
 const projects = [
     {
-      img: project7,
+      img: finwise,
+      title: "Finwise",
+      description: "AI Powered Financial Advisor for personalized financial recommendations.",
+      links: {
+        site: "https://finwise.ayush-sharma.in/",
+        github:"https://github.com/glucon-d/finwise",
+      },
+    },
+    {
+      img: pathgenie,
+      title: "Pathgenie",
+      description: "AI powered career guidance platform for personalized career recommendations.",
+      links: {
+        site: "https://pathgenie.ayush-sharma.in/",
+        github:"https://github.com/glucon-d/pathgenie",
+      },
+    },
+    {
+      img: intellica,
       title: "Intellica",
       description: "AI powered learning platform for personalized learning experience.",
       links: {
@@ -23,7 +38,7 @@ const projects = [
       },
     },
     {
-      img: project6,
+      img: portdev,
       title: "PortDev",
       description: "Create Devloper Portfolio in Minutes.",
       links: {
@@ -32,46 +47,12 @@ const projects = [
       },
     },
     {
-      img: project1,
+      img: react_portfolio,
       title: "React Portfolio",
       description: "Personal Portfolio Website using React Js",
       links: {
         site: "https://cyberboyayush.in/",
         github: "https://github.com/cyberboyayush/React-Portfolio",
-      },
-    },
-    {
-      img: project2,
-      title: "Zarina Bot",
-      description: "An AI Based Group Chat Bot for Telegram",
-      links: {
-        github: "https://github.com/CyberBoyAyush/ZarinaBot",
-      },
-    },
-    {
-      img: project3,
-      title: "Simple Portfolio",
-      description: "A simple easy to deploy portfolio for beginners.",
-      links: {
-        site: "https://cyberboyayush.github.io/Simple-Portfolio/",
-        github: "https://github.com/CyberBoyAyush/Simple-Portfolio",
-      },
-    },
-    {
-      img: project4,
-      title: "GP Links Bot",
-      description: "Link Shortner Bot Works On GPLinks API.",
-      links: {
-        github: "https://github.com/CyberBoyAyush/GPLinksBot",
-      },
-    },
-    {
-      img: project5,
-      title: "JS-Portfolio",
-      description: "Portfolio made with node js single page with projects page. (Easy to deploy) -> Uses Github Api to Fetch Projects",
-      links: {
-        site: "https://js-portfolio-demo.netlify.app/",
-        github: "https://github.com/CyberBoyAyush/JS-Portfolio",
       },
     },
   ]
