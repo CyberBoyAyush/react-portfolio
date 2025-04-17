@@ -15,7 +15,7 @@ const projects = [
       img: finwise,
       title: "Finwise",
       description: "AI Powered Financial Advisor for personalized financial recommendations.",
-      technologies: ["React", "OpenAI", "Node.js", "Express", "TailwindCSS"],
+      technologies: ["React", "Gemini", "GROQ", "Appwrite", "TailwindCSS", "Grow"],
       links: {
         site: "https://finwise.ayush-sharma.in/",
         github:"https://github.com/glucon-d/finwise",
@@ -25,7 +25,7 @@ const projects = [
       img: pathgenie,
       title: "Pathgenie",
       description: "AI powered career guidance platform for personalized career recommendations.",
-      technologies: ["React", "OpenAI", "Firebase", "TailwindCSS"],
+      technologies: ["React", "Gemini", "Appwrite", "TailwindCSS", "Groq", "Llama 3.3"],
       links: {
         site: "https://pathgenie.ayush-sharma.in/",
         github:"https://github.com/glucon-d/pathgenie",
@@ -35,7 +35,7 @@ const projects = [
       img: intellica,
       title: "Intellica",
       description: "AI powered learning platform for personalized learning experience.",
-      technologies: ["Next.js", "OpenAI", "MongoDB", "TailwindCSS"],
+      technologies: ["Next.js", "Gemini", "Appwrite", "TailwindCSS"],
       links: {
         site: "https://intellica.ayush-sharma.in/",
         github:"https://github.com/cyberboyayush/intellica",
@@ -254,12 +254,6 @@ const ProjectCard = ({ project, index, isHovered, onHover }) => {
             </div>
           </div>
         </motion.div>
-
-        {isTouchDevice && (
-          <div className="absolute top-4 right-4 text-xs text-purple-300 bg-[#030014]/80 px-2 py-1 rounded-full border border-purple-500/30 z-20">
-            Tap to {isActive ? 'close' : 'view'}
-          </div>
-        )}
       </div>
     </motion.div>
   );
