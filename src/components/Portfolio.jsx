@@ -35,7 +35,7 @@ const projects = [
       img: intellica,
       title: "Intellica",
       description: "AI powered learning platform for personalized learning experience.",
-      technologies: ["Next.js", "Gemini", "Appwrite", "TailwindCSS"],
+      technologies: ["React", "Gemini", "Appwrite", "TailwindCSS"],
       links: {
         site: "https://intellica.ayush-sharma.in/",
         github:"https://github.com/cyberboyayush/intellica",
