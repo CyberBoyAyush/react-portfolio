@@ -126,14 +126,15 @@ const ProjectCard = ({ project, index, isHovered, onHover }) => {
       onHoverStart={() => !isTouchDevice && onHover(index)} 
       onHoverEnd={() => !isTouchDevice && onHover(null)}
       onClick={handleInteraction}
-      className="group relative rounded-3xl overflow-hidden
+      className={`group relative rounded-3xl overflow-hidden
                  bg-gradient-to-br from-purple-900/30 to-purple-800/20
                  backdrop-blur-sm
                  border border-purple-500/20
                  hover:border-purple-500/50
                  shadow-xl shadow-purple-950/20
                  hover:shadow-2xl hover:shadow-purple-800/20
-                 transition-all duration-500"
+                 transition-all duration-500
+                 ${isTouchDevice ? 'cursor-pointer' : 'cursor-auto'}`}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-pink-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
       
