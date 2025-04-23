@@ -9,8 +9,18 @@ import pathgenie from "../assets/pathgenie.png"
 import finwise from "../assets/finwise.png"
 import portdev from "../assets/portdev.png"
 import intellica from "../assets/intellica.png"
+import effisense from "../assets/effisense.png"
 
 const projects = [
+    {
+      img: effisense,
+      title: "Effisense",
+      description: "Experience the future of productivity with AI-powered task scheduling, smart prioritization, and intelligent workload balancing.",
+      technologies: ["React", "Google API", "GROQ", "Appwrite", "TailwindCSS", "Recharts"],
+      links: {
+        site: "https://effisense.ayush-sharma.in/",
+      },
+    },
     {
       img: finwise,
       title: "Finwise",
