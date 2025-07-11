@@ -15,7 +15,7 @@ const projects = [
     {
       img: effisense,
       title: "Effisense",
-      description: "Experience the future of productivity with AI-powered task scheduling, smart prioritization, and intelligent workload balancing.",
+      description: "Experience the future of productivity with AI-powered task scheduling, smart prioritization, and intelligent workload balancing",
       technologies: ["React", "Google API", "GROQ", "Appwrite", "TailwindCSS", "Recharts"],
       links: {
         site: "https://effisense.ayush-sharma.in/",
